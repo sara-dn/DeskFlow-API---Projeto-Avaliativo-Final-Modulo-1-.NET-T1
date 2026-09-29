@@ -1,5 +1,6 @@
 /bin
 /obj
-/todo.txt
-/DocumentationNotes.txt
-/dbnotes.txt
+todo.txt
+DocumentationNotes.txt
+dbnotes.txt
+/deskflow-db
