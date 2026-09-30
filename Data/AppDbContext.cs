@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeskFlow.API.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 namespace DeskFlow.API.Data
 {
@@ -13,6 +15,9 @@ namespace DeskFlow.API.Data
         {
         }
 
-        //Todo:implement DbSets for each entity on Models/Entities
+        public DbSet<Category> Categories => Set<Category>();
+        public DbSet<Ticket> Tickets => Set<Ticket>();
+        public DbSet<Interection> Interactions => Set<Interection>();
+
     }
 }
