@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace DeskFlow.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/tickets")]
     public class TicketsController : ControllerBase
     {
         //todo: implement CRUD methods
