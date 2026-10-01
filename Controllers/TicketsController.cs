@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using DeskFlow.API.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using DeskFlow.API.Services.Interfaces; 
+using DeskFlow.API.Models.DTOs;
 
 namespace DeskFlow.API.Controllers
 {
@@ -13,49 +8,61 @@ namespace DeskFlow.API.Controllers
     [Route("api/tickets")]
     public class TicketsController : ControllerBase
     {
-        [HttpPost]
-        public async Task<IActionResult> NewAsync([FromBody]Ticket ticket)
-        {
-            //todo: implement writing logic using services
-            return Created("/tickets", ticket);  
-        }
+        private ITicketService _ticketService;
 
-        [HttpPatch]
-        [Route("{id}/start")]
-        public async Task<IActionResult> StartAsync([FromRoute]int id, [FromBody] Ticket ticket)
+        public TicketsController(ITicketService ticketService)
         {
-            //todo: implement start logic
-            return Ok();
-        }
-
-        [HttpPatch]
-        [Route("{id}/close")]
-        public async Task<IActionResult> CloseAsync([FromRoute]int id, [FromBody] Ticket ticket)
-        {
-            //todo: implement close logic
-            return Ok();
+            _ticketService = ticketService;
         }
 
         [HttpPost]
-        [Route("{id}/interactions")]
-        public async Task<IActionResult> NewAsync([FromRoute]int id, [FromBody]Interection interection)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateTicketDto dto)
         {
-            //todo: implement writing logic using services
-            return Created("/tickets/{id}/interactions", interection);  
+            var createdTicket = await _ticketService.CreateTicketAsync(dto);
+        
+            return Created();
+        }
+
+        [HttpPatch("{id}/start")]
+        public async Task<IActionResult> StartAsync([FromRoute] int id)
+        {
+            await _ticketService.StartTicketAsync(id);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/close")]
+        public async Task<IActionResult> CloseAsync([FromRoute] int id, [FromBody] CloseTicketDto dto)
+        {
+            await _ticketService.CloseTicketAsync(id, dto);
+            return NoContent();
+        }
+
+        [HttpPost("{id}/interactions")]
+        public async Task<IActionResult> AddInteractionAsync([FromRoute] int id, [FromBody] CreateInteractionDto dto)
+        {
+            var createdInteraction = await _ticketService.AddInteractionAsync(id, dto);
+            
+            return Created();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        {
+            var ticket = await _ticketService.GetByIdAsync(id);
+            
+            if (ticket == null)
+                return NotFound(new { message = $"Ticket with ID {id} not found." });
+
+            return Ok(ticket);
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> ByIdAsync([FromRoute]int id)
+        public async Task<IActionResult> GetAllAsync(
+            [FromQuery] string status, 
+            [FromQuery] string priority, 
+            [FromQuery] int categoryId)
         {
-            Category tickets = new();
-            return Ok(tickets);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> AllAsync()
-        {
-            List<Ticket> tickets = new();
+            var tickets = await _ticketService.GetAllAsync(status, priority, categoryId);
             return Ok(tickets);
         }
     }
