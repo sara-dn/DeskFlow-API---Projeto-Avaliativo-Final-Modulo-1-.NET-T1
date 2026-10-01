@@ -8,10 +8,13 @@ using DeskFlow.API.Repositories.Interfaces;
 
 namespace DeskFlow.API.Services
 {
-    public class CategoryService : ICategoryInterface
+    public class CategoryService : ICategoryService
     {
+        private ICategoryRepository _categoryRepository;
+
         public Task<Category> CreateAsync(Category category)
         {
+
             throw new NotImplementedException();
         }
 

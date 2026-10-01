@@ -13,8 +13,8 @@ namespace DeskFlow.API.Controllers
     [Route("api/categories")]
     public class CategoryController : ControllerBase
     {
-        private ICategoryInterface _categoryService;
-        public CategoryController(ICategoryInterface categoryService)
+        private ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }

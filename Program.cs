@@ -14,8 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<ICategoryRepositoryInterface, CategoryRepository>();
-builder.Services.AddScoped<ICategoryInterface, CategoryService>();
+
+//dependency injections
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 //sets up database connection
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");

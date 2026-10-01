@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeskFlow.API.Repositories
 {
-    public class CategoryRepository : ICategoryRepositoryInterface
+    public class CategoryRepository : ICategoryRepository
     {
         public Task<Category> CreateAsync(Category category)
         {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DeskFlow.API.Models.Entities;
 
-namespace DeskFlow.API.Repositories.Interfaces
+namespace DeskFlow.API.Services.Interfaces
 {
-    public interface ICategoryRepositoryInterface
+    public interface ICategoryService
     {
         Task<Category> GetByIdAsync(int id);
         Task<List<Category>> GetAllAsync();
