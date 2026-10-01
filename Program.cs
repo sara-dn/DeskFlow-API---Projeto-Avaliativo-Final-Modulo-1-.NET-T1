@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using DeskFlow.API.Data;
 using DeskFlow.API.Middlewares;
+using DeskFlow.API.Services.Interfaces;
+using DeskFlow.API.Services;
+using DeskFlow.API.Repositories.Interfaces;
+using DeskFlow.API.Repositories;
 
 //Creates the builder object that configures the application
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddOpenApi();
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<ICategoryRepositoryInterface, CategoryRepository>();
+builder.Services.AddScoped<ICategoryInterface, CategoryService>();
 
 //sets up database connection
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
