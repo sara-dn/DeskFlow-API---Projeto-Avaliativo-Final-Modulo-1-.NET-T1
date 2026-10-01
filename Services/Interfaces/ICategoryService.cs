@@ -10,7 +10,7 @@ namespace DeskFlow.API.Services.Interfaces
     {
         Task<Category> GetByIdAsync(int id);
         Task<List<Category>> GetAllAsync();
-        Task<Category> CreateAsync(Category category);
+        Task CreateAsync(Category category);
         Task UpdateAsync(int id, Category category);
         Task DeleteAsync(int id);
     }

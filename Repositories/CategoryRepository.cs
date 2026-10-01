@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeskFlow.API.Data;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,29 +12,38 @@ namespace DeskFlow.API.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public Task<Category> CreateAsync(Category category)
+        private AppDbContext _context;
+
+        public CategoryRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task CreateAsync(Category category)
+        {
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(Category category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Category>> GetAllAsync()
+        public async Task<List<Category>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Categories.ToListAsync();
         }
 
-        public Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Categories.FindAsync(id);
         }
 
-        public Task UpdateAsync(int id, Category category)
+        public async Task UpdateAsync(Category category)
         {
-            throw new NotImplementedException();
+            _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
         }
     }
 }
