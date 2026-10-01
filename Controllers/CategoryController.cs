@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DeskFlow.API.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using DeskFlow.API.Services.Interfaces;
 
 namespace DeskFlow.API.Controllers
 {
@@ -12,6 +13,11 @@ namespace DeskFlow.API.Controllers
     [Route("api/categories")]
     public class CategoryController : ControllerBase
     {
+        private ICategoryInterface _categoryService;
+        public CategoryController(ICategoryInterface categoryService)
+        {
+            _categoryService = categoryService;
+        }
         [HttpPost]
         public async Task<IActionResult> NewAsync([FromBody]Category category)
         {
