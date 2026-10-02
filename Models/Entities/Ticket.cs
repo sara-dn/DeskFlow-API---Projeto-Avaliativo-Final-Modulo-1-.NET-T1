@@ -22,6 +22,6 @@ namespace DeskFlow.API.Models.Entities
         public string Status {get; set;}//open, in progress, closed
         public int CategoryId {get; set;}
         public Category Category {get; set;}
-        public ICollection<Interection> Interections {get; set;}
+        public ICollection<Interaction> Interactions {get; set;}
     }
 }

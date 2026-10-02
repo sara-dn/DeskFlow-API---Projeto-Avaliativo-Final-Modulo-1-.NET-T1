@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeskFlow.API.Models.Entities
 {
-    public class Interection
+    public class Interaction
     {
         [Key]
         public int Id {get; set;}

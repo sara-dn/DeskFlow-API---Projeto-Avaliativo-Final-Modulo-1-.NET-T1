@@ -6,7 +6,7 @@ using DeskFlow.API.Models.Entities;
 
 namespace DeskFlow.API.Repositories.Interfaces
 {
-    public interface ITicketInterface
+    public interface ITicketRepository
     {
         
     }
