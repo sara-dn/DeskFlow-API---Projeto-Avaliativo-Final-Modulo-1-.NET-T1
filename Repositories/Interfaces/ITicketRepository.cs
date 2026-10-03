@@ -12,6 +12,6 @@ namespace DeskFlow.API.Repositories.Interfaces
         Task<Ticket> UpdateTicketAsync(Ticket ticket);
         Task<Ticket> AddInteractionAsync(Ticket ticket, Interaction interaction);
         Task<Ticket> GetByIdAsync(int id);
-        Task<List<Ticket>> GetAllAsync(string status, string priority, int categoryId);
+        Task<List<Ticket>> GetAllAsync(string status, string priority, string categoryId);
     }
 }

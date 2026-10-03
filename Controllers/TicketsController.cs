@@ -75,7 +75,7 @@ namespace DeskFlow.API.Controllers
         public async Task<IActionResult> GetAllAsync(
             [FromQuery] string status, 
             [FromQuery] string priority, 
-            [FromQuery] int categoryId)
+            [FromQuery] string categoryId)
         {
             var tickets = await _ticketService.GetAllAsync(status, priority, categoryId);
             return Ok(tickets);
