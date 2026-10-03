@@ -1,21 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DeskFlow.API.Models.Entities
 {
+    [Table("Interactions")]
     public class Interaction
     {
         [Key]
-        public int Id {get; set;}
-        public string Author {get; set;}
-        public string Message {get; set;}
-        public DateTime CreatedDate {get; set;} //DataRegistro from RF09
-        public int TicketId {get; set;}
-        public Ticket Ticket {get; set;}
+        [Column("id")]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        [Column("author", TypeName = "varchar(100)")]
+        public string Author { get; set; }
+
+        [Required]
+        [Column("message", TypeName = "varchar(max)")]
+        public string Message { get; set; }
+
+        [Required]
+        [Column("created_date", TypeName = "datetime")]
+        public DateTime CreatedDate { get; set; }
+
+        [Required]
+        [Column("ticket_id")]
+        public int TicketId { get; set; }
+
+        [ForeignKey(nameof(TicketId))]
+        public virtual Ticket Ticket { get; set; }
     }
 }

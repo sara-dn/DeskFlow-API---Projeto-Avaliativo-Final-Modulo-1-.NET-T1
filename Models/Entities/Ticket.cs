@@ -1,27 +1,47 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
-//This is the "Chamados" from RF05
 namespace DeskFlow.API.Models.Entities
 {
+[Table("Tickets")]
     public class Ticket
     {
         [Key]
-        public int Id {get; set;}
-        public string Title {get; set;}
-        public string Description {get; set;}
-        public string RequesterName {get; set;} //SolicitanteNome from RF05
-        public DateTime OpenedDate {get; set;}
-        public DateTime ClosedDate {get; set;}
-        public string Solution {get; set;}
-        public string Priority {get; set;} //low, medium, high
-        public string Status {get; set;}//open, in progress, closed
-        public int CategoryId {get; set;}
-        public Category Category {get; set;}
-        public ICollection<Interaction> Interactions {get; set;}
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(150)]
+        [Column("title", TypeName = "varchar(150)")]
+        public string Title { get; set; } = string.Empty;
+
+        [Required]
+        [Column("description",TypeName = "varchar(max)")]
+        public string Description { get; set; }
+        [Required]
+        [MaxLength(100)]
+        [Column("requester_name", TypeName = "varchar(100)")]
+        public string RequesterName { get; set; }
+        [Required]
+        [Column("opened_date", TypeName = "datetime")]
+        public DateTime OpenedDate { get; set; }
+        [Column("closed_date", TypeName = "datetime")]
+        public DateTime ClosedDate { get; set; }
+        [Column("solution", TypeName = "varchar(max)")]
+        public string Solution { get; set; }
+        [Required]
+        [MaxLength(20)]
+        [Column("priority", TypeName = "varchar(20)")]
+        public string Priority { get; set; }
+        [Required]
+        [MaxLength(20)]
+        [Column("status", TypeName = "varchar(20)")]
+        public string Status { get; set; }
+        [Required]
+        [Column("category_id")]
+        public int CategoryId { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Interaction> Interactions { get; set; } = new List<Interaction>();
     }
 }

@@ -17,7 +17,7 @@ namespace DeskFlow.API.Data
 
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Ticket> Tickets => Set<Ticket>();
-        public DbSet<Interection> Interactions => Set<Interection>();
+        public DbSet<Interaction> Interactions => Set<Interaction>();
 
     }
 }
