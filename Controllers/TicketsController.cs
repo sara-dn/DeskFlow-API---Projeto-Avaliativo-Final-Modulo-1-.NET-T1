@@ -26,8 +26,13 @@ namespace DeskFlow.API.Controllers
         [HttpPatch("{id}/start")]
         public async Task<IActionResult> StartAsync([FromRoute] int id)
         {
-            await _ticketService.StartTicketAsync(id);
-            return NoContent();
+            var ticket = await _ticketService.GetByIdAsync(id);
+            if (ticket == null)
+            {
+                return NotFound(new { message = $"Ticket with ID {id} not found." });
+            }
+            await _ticketService.StartTicketAsync(ticket);
+            return Created();
         }
 
         [HttpPatch("{id}/close")]

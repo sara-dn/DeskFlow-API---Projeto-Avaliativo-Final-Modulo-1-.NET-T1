@@ -6,7 +6,7 @@ namespace DeskFlow.API.Services.Interfaces
     public interface ITicketService
     {
         Task<Ticket> CreateTicketAsync(CreateTicketDto dto);
-        Task<Ticket> StartTicketAsync(int id);
+        Task<Ticket> StartTicketAsync(Ticket ticket);
         Task<Ticket> CloseTicketAsync(int id, CloseTicketDto dto);
         Task<Ticket> AddInteractionAsync(int id, CreateInteractionDto dto);
         Task<Ticket> GetByIdAsync(int id);

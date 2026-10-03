@@ -9,7 +9,7 @@ namespace DeskFlow.API.Repositories.Interfaces
     public interface ITicketRepository
     {
         Task<Ticket> CreateTicketAsync(Ticket newTicket);
-        Task StartTicketAsync(int id);
+        Task<Ticket> StartTicketAsync(Ticket ticket);
         Task<Ticket> CloseTicketAsync(int id, string resolution);
         Task<Ticket> AddInteractionAsync(int id, Interaction interaction);
         Task<Ticket> GetByIdAsync(int id);

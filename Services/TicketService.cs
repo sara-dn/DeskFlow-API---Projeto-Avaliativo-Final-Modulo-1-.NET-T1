@@ -2,6 +2,7 @@ using DeskFlow.API.Repositories.Interfaces;
 using DeskFlow.API.Models.DTOs;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DeskFlow.API.Services
 {
@@ -25,13 +26,14 @@ namespace DeskFlow.API.Services
                 Status = dto.Status,
                 CategoryId = dto.CategoryId
             };
-
-            throw new NotImplementedException();
+            return await _context.CreateTicketAsync(newTicket);
         }
 
-        public async Task<Ticket> StartTicketAsync(int id)
+        public async Task<Ticket> StartTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            ticket.Status = "InProgress";
+            await _context.StartTicketAsync(ticket);
+            return ticket;
         }
 
         public async Task<Ticket> CloseTicketAsync(int id, CloseTicketDto dto)
@@ -46,7 +48,8 @@ namespace DeskFlow.API.Services
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var ticket = await _context.GetByIdAsync(id);
+            return ticket;
         }
 
         public async Task<List<Ticket>> GetAllAsync(string status, string priority, int categoryId)

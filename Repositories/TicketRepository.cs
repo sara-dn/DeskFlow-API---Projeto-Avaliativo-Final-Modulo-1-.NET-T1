@@ -27,10 +27,11 @@ namespace DeskFlow.API.Repositories
             return ticket;
         }
 
-        public async Task StartTicketAsync(int id)
+        public async Task<Ticket> StartTicketAsync(Ticket ticket)
         {
-            
-            throw new NotImplementedException();
+            _context.Tickets.Update(ticket);
+            await _context.SaveChangesAsync();
+            return ticket;
         }
 
         public async Task<Ticket> CloseTicketAsync(int id, string resolution)
@@ -45,7 +46,8 @@ namespace DeskFlow.API.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var ticket = await _context.Tickets.FindAsync(id);
+            return ticket;
         }
 
         public async Task<List<Ticket>> GetAllAsync(string status, string priority, int categoryId)
