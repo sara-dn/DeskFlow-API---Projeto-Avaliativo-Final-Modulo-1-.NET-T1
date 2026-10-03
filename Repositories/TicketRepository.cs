@@ -34,9 +34,11 @@ namespace DeskFlow.API.Repositories
             return ticket;
         }
 
-        public async Task<Ticket> AddInteractionAsync(int id, Interaction interaction)
+        public async Task<Ticket> AddInteractionAsync(Ticket ticket, Interaction interaction)
         {
-            throw new NotImplementedException();
+            ticket.Interactions.Add(interaction);
+            await _context.SaveChangesAsync();
+            return ticket;
         }
 
         public async Task<Ticket> GetByIdAsync(int id)

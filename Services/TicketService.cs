@@ -45,9 +45,15 @@ namespace DeskFlow.API.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Ticket> AddInteractionAsync(int id, CreateInteractionDto dto)
+        public async Task<Ticket> AddInteractionAsync(Ticket ticket, CreateInteractionDto dto)
         {
-            throw new NotImplementedException();
+            var interaction = new Interaction
+            {
+                Message = dto.Message,
+                Author = dto.Author
+            };
+            interaction.CreatedDate = DateTime.Now;
+            return await _context.AddInteractionAsync(ticket, interaction);
         }
 
         public async Task<Ticket> GetByIdAsync(int id)
