@@ -1,4 +1,6 @@
 using DeskFlow.API.Models.Entities;
+using DeskFlow.API.Models.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.API.Services.Interfaces
 {
@@ -6,8 +8,8 @@ namespace DeskFlow.API.Services.Interfaces
     {
         Task<Category> GetByIdAsync(int id);
         Task<List<Category>> GetAllAsync();
-        Task CreateAsync(Category category);
-        Task UpdateAsync(int id, Category category);
+        Task<Category> CreateAsync(CreateUpdateCategoryDto dto);
+        Task UpdateAsync(int id, CreateUpdateCategoryDto dto);
         Task DeleteAsync(int id);
     }
 }

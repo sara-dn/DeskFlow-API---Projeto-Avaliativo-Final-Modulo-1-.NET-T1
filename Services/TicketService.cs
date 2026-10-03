@@ -21,9 +21,9 @@ namespace DeskFlow.API.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 RequesterName = dto.RequesterName,
-                OpenedDate = dto.OpenedDate,
+                OpenedDate = DateTime.Now,
                 Priority = dto.Priority,
-                Status = dto.Status,
+                Status = "Open",
                 CategoryId = dto.CategoryId
             };
             return await _context.CreateTicketAsync(newTicket);

@@ -18,9 +18,15 @@ namespace DeskFlow.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateTicketDto dto)
         {
-            var createdTicket = await _ticketService.CreateTicketAsync(dto);
-        
-            return Created();
+            try
+            {
+               var createdTicket = await _ticketService.CreateTicketAsync(dto);
+               return Ok(createdTicket);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         [HttpPatch("{id}/start")]

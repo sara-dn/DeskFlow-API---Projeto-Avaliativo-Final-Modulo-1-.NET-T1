@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DeskFlow.API.Models.Entities;
+using DeskFlow.API.Models.DTOs;
 using DeskFlow.API.Services.Interfaces;
 using DeskFlow.API.Repositories.Interfaces;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.API.Services
 {
@@ -18,9 +20,13 @@ namespace DeskFlow.API.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task CreateAsync(Category category)
+        public async Task<Category> CreateAsync(CreateUpdateCategoryDto dto)
         {
-            await _categoryRepository.CreateAsync(category);
+            var category = new Category
+            {
+                Name = dto.Name,
+            };
+            return await _categoryRepository.CreateAsync(category);
         }
 
         public async Task DeleteAsync(int id)
@@ -42,7 +48,7 @@ namespace DeskFlow.API.Services
             return await _categoryRepository.GetByIdAsync(id);
         }
 
-        public async Task UpdateAsync(int id, Category category)
+        public async Task UpdateAsync(int id, CreateUpdateCategoryDto dto)
         {
             var categoryDb = await _categoryRepository.GetByIdAsync(id);
 
@@ -50,8 +56,11 @@ namespace DeskFlow.API.Services
             {
                 throw new Exception("Category not found");
             }
-
-            categoryDb.Update(category);
+            var updatedCategory = new Category
+            {
+                Name = dto.Name,
+            };
+            categoryDb.Update(updatedCategory);
 
             await _categoryRepository.UpdateAsync(categoryDb);
         }

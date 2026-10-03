@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using DeskFlow.API.Data;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -18,10 +20,11 @@ namespace DeskFlow.API.Repositories
         {
             _context = context;
         }
-        public async Task CreateAsync(Category category)
+        public async Task<Category> CreateAsync(Category category)
         {
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
+            return category;
         }
 
         public async Task DeleteAsync(Category category)

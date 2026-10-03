@@ -13,7 +13,7 @@ namespace DeskFlow.API.Models.Entities
         [Required]
         [MaxLength(100)]
         [Column("name", TypeName = "varchar(100)")]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
         public void Update(Category category)
         {

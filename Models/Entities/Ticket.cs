@@ -24,7 +24,7 @@ namespace DeskFlow.API.Models.Entities
         [Required]
         [Column("opened_date", TypeName = "datetime")]
         public DateTime OpenedDate { get; set; }
-        [Column("closed_date", TypeName = "datetime")]
+        [Column("closed_date", TypeName = "datetime2")]
         public DateTime ClosedDate { get; set; }
         [Column("solution", TypeName = "varchar(max)")]
         public string Solution { get; set; }

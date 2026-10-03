@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DeskFlow.API.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.API.Repositories.Interfaces
 {
@@ -10,7 +11,7 @@ namespace DeskFlow.API.Repositories.Interfaces
     {
         Task<Category> GetByIdAsync(int id);
         Task<List<Category>> GetAllAsync();
-        Task CreateAsync(Category category);
+        Task<Category> CreateAsync(Category category);
         Task UpdateAsync(Category category);
         Task DeleteAsync(Category category);
     }
