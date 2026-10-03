@@ -38,7 +38,12 @@ namespace DeskFlow.API.Controllers
         [HttpPatch("{id}/close")]
         public async Task<IActionResult> CloseAsync([FromRoute] int id, [FromBody] CloseTicketDto dto)
         {
-            await _ticketService.CloseTicketAsync(id, dto);
+            var ticket = await _ticketService.GetByIdAsync(id);
+            if(ticket == null)
+            {
+                return NotFound(new { message = $"Ticket with ID {id} not found." });
+            }
+            await _ticketService.CloseTicketAsync(ticket, dto);
             return NoContent();
         }
 

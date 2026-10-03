@@ -32,12 +32,16 @@ namespace DeskFlow.API.Services
         public async Task<Ticket> StartTicketAsync(Ticket ticket)
         {
             ticket.Status = "InProgress";
-            await _context.StartTicketAsync(ticket);
+            await _context.UpdateTicketAsync(ticket);
             return ticket;
         }
 
-        public async Task<Ticket> CloseTicketAsync(int id, CloseTicketDto dto)
+        public async Task<Ticket> CloseTicketAsync(Ticket ticket, CloseTicketDto dto)
         {
+            ticket.Status = dto.Status;
+            ticket.Solution = dto.Solution;
+            ticket.ClosedDate = dto.ClosedDate;
+            await _context.UpdateTicketAsync(ticket);
             throw new NotImplementedException();
         }
 
