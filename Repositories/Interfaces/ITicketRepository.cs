@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using DeskFlow.API.Models.Entities;
+using DeskFlow.API.Models.DTOs;
 
 namespace DeskFlow.API.Repositories.Interfaces
 {
@@ -12,6 +10,6 @@ namespace DeskFlow.API.Repositories.Interfaces
         Task<Ticket> UpdateTicketAsync(Ticket ticket);
         Task<Ticket> AddInteractionAsync(Ticket ticket, Interaction interaction);
         Task<Ticket> GetByIdAsync(int id);
-        Task<List<Ticket>> GetAllAsync(string status, string priority, string categoryId);
+        Task<List<Ticket>> GetAllAsync(QueryFilterDto filter);
     }
 }

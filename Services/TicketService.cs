@@ -62,10 +62,16 @@ namespace DeskFlow.API.Services
             return ticket;
         }
 
-        public async Task<List<Ticket>> GetAllAsync(string status, string priority, string categoryId)
+        public async Task<List<Ticket>> GetAllAsync(string status, string priority, int categoryId)
         {
+            var filter = new QueryFilterDto
+            {
+                Status = status,
+                Priority = priority,
+                CategoryId = categoryId
+            };
 
-            throw new NotImplementedException();
-        }
+            return await _context.GetAllAsync(filter);
+    }
     }
 }

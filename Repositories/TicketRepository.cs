@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DeskFlow.API.Models.Entities;
+using DeskFlow.API.Models.DTOs;
 using DeskFlow.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DeskFlow.API.Data;
@@ -47,9 +48,26 @@ namespace DeskFlow.API.Repositories
             return ticket;
         }
 
-        public async Task<List<Ticket>> GetAllAsync(string status, string priority, string categoryId)
+        public async Task<List<Ticket>> GetAllAsync(QueryFilterDto filter)
         {
-            throw new NotImplementedException();
+            var query = _context.Tickets.AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filter.Status))
+            {
+                query = query.Where(t => t.Status == filter.Status);
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.Priority))
+            {
+            query = query.Where(t => t.Priority == filter.Priority);
+            }
+
+            if (filter.CategoryId > 0)
+            {
+                query = query.Where(t => t.CategoryId == filter.CategoryId);
+            }
+
+        return await query.ToListAsync();
         }
     }
 }
