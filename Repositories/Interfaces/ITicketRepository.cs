@@ -11,5 +11,6 @@ namespace DeskFlow.API.Repositories.Interfaces
         Task<Ticket> AddInteractionAsync(Ticket ticket, Interaction interaction);
         Task<Ticket> GetByIdAsync(int id);
         Task<List<Ticket>> GetAllAsync(QueryFilterDto filter);
+        Task<Ticket> GetByIdForInteractionsAsync(int id);
     }
 }

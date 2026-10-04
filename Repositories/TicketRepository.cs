@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Models.DTOs;
 using DeskFlow.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using DeskFlow.API.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.API.Repositories
 {
@@ -44,8 +39,7 @@ namespace DeskFlow.API.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            var ticket = await _context.Tickets.FindAsync(id);
-            return ticket;
+            return await _context.Tickets.AsNoTrackingWithIdentityResolution().Include(t => t.Interactions).Include(t => t.Category).FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<List<Ticket>> GetAllAsync(QueryFilterDto filter)
@@ -68,6 +62,11 @@ namespace DeskFlow.API.Repositories
             }
 
         return await query.ToListAsync();
+        }
+
+        public async Task<Ticket> GetByIdForInteractionsAsync(int id)
+        {
+            return await _context.Tickets.FindAsync(id);
         }
     }
 }

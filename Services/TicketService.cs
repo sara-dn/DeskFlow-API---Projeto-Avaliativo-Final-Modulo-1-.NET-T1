@@ -40,17 +40,19 @@ namespace DeskFlow.API.Services
         {
             ticket.Status = dto.Status;
             ticket.Solution = dto.Solution;
-            ticket.ClosedDate = dto.ClosedDate;
+            ticket.ClosedDate = DateTime.Now;
             await _context.UpdateTicketAsync(ticket);
-            throw new NotImplementedException();
+            return ticket;
         }
 
-        public async Task<Ticket> AddInteractionAsync(Ticket ticket, CreateInteractionDto dto)
+        public async Task<Ticket> AddInteractionAsync(int id, CreateInteractionDto dto)
         {
+            var ticket = await _context.GetByIdForInteractionsAsync(id);
             var interaction = new Interaction
             {
                 Message = dto.Message,
-                Author = dto.Author
+                Author = dto.Author,
+                TicketId = ticket.Id
             };
             interaction.CreatedDate = DateTime.Now;
             return await _context.AddInteractionAsync(ticket, interaction);
@@ -72,6 +74,7 @@ namespace DeskFlow.API.Services
             };
 
             return await _context.GetAllAsync(filter);
-    }
+        }
+    
     }
 }

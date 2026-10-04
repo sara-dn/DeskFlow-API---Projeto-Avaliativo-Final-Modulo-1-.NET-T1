@@ -12,9 +12,8 @@ namespace DeskFlow.API.Models.Entities
         [Required]
         [MaxLength(150)]
         [Column("title", TypeName = "varchar(150)")]
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
-        [Required]
         [Column("description",TypeName = "varchar(max)")]
         public string Description { get; set; }
         [Required]
@@ -22,7 +21,7 @@ namespace DeskFlow.API.Models.Entities
         [Column("requester_name", TypeName = "varchar(100)")]
         public string RequesterName { get; set; }
         [Required]
-        [Column("opened_date", TypeName = "datetime")]
+        [Column("opened_date", TypeName = "datetime2")]
         public DateTime OpenedDate { get; set; }
         [Column("closed_date", TypeName = "datetime2")]
         public DateTime ClosedDate { get; set; }

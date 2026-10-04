@@ -53,7 +53,8 @@ namespace DeskFlow.API.Controllers
             return NoContent();
         }
 
-        [HttpPost("{id}/interactions")]
+        [HttpPost]
+        [Route("{id}/interactions")]
         public async Task<IActionResult> AddInteractionAsync([FromRoute] int id, [FromBody] CreateInteractionDto dto)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
@@ -61,19 +62,21 @@ namespace DeskFlow.API.Controllers
             {
                 return NotFound(new { message = $"Ticket with ID {id} not found." });
             }
-            var createdInteraction = await _ticketService.AddInteractionAsync(ticket, dto);
+            var createdInteraction = await _ticketService.AddInteractionAsync(id, dto);
             
             return Created();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
             
             if (ticket == null)
+            {
                 return NotFound(new { message = $"Ticket with ID {id} not found." });
-
+            }
             return Ok(ticket);
         }
 

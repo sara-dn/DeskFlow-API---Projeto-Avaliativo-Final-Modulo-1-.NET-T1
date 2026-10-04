@@ -13,7 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddOpenApi();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>{
+        // This stops the crash and just leaves the loop property blank/null in the JSON
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+        ;});
 
 //dependency injections
 builder.Services.AddScoped<ICategoryService, CategoryService>();

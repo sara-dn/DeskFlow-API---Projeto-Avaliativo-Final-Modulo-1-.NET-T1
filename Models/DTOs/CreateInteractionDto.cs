@@ -9,7 +9,5 @@ namespace DeskFlow.API.Models.DTOs
     {
         public string Author {get; set;}
         public string Message {get; set;}
-        [Required]
-        public int TicketId {get; set;}
     }
 }

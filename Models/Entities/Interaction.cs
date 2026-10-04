@@ -20,7 +20,7 @@ namespace DeskFlow.API.Models.Entities
         public string Message { get; set; }
 
         [Required]
-        [Column("created_date", TypeName = "datetime")]
+        [Column("created_date", TypeName = "datetime2")]
         public DateTime CreatedDate { get; set; }
 
         [Required]
