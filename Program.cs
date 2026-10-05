@@ -5,6 +5,8 @@ using DeskFlow.API.Services.Interfaces;
 using DeskFlow.API.Services;
 using DeskFlow.API.Repositories.Interfaces;
 using DeskFlow.API.Repositories;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Html;
 
 //Creates the builder object that configures the application
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +33,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 var app = builder.Build();
 
 //Configures middleware use
-//app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 //maps the controllers to the application duh
 app.MapControllers();
@@ -45,6 +47,12 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json", "My API v1");
     });
 }
+
+app.MapGet("/", () =>
+{
+    string hello = "<style>body{background:black;}</style><h1 style=\"color:purple\">DeskFlow API 🧙 Welcome!</h1>";
+    return Results.Content(hello, "text/html");//this is only good for browser
+});
 
 //app.UseHttpsRedirection();
 

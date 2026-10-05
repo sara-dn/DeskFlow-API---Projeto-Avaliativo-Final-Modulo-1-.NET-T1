@@ -38,29 +38,32 @@ namespace DeskFlow.API.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            return await _context.Tickets.AsNoTrackingWithIdentityResolution().Include(t => t.Interactions).Include(t => t.Category).FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Tickets.AsNoTrackingWithIdentityResolution().Include(t => t.Interactions).FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<List<Ticket>> GetAllAsync(QueryFilterDto filter)
         {
-            List<Ticket> tickets = new();
-
-            if (!string.IsNullOrWhiteSpace(filter.Status))//isnullorwhitespace checks if a string is null, empty, or consistes of " "
             {
-                tickets = await _context.Tickets.Where(t => t.Status == filter.Status).Include(t => t.Interactions).Include(t => t.Category).ToListAsync();
-            }
+                IQueryable<Ticket> query = _context.Tickets.Include(t => t.Interactions).Include(t => t.Category);//creates a queryble object that allows for dynamic quearies in a single trip to the database
 
-            if (!string.IsNullOrWhiteSpace(filter.Priority))
-            {
-                tickets = await _context.Tickets.Where(t => t.Priority == filter.Priority).Include(t => t.Interactions).Include(t => t.Category).ToListAsync();
-            }
+                if (!string.IsNullOrWhiteSpace(filter.Status))
+                {
+                    query = query.Where(t => t.Status == filter.Status);
+                }//add the status query parameter if required
 
-            if (filter.CategoryId > 0)
-            {
-                tickets = await _context.Tickets.Where(t => t.CategoryId == filter.CategoryId).Include(t => t.Interactions).Include(t => t.Category).ToListAsync();
+                if (!string.IsNullOrWhiteSpace(filter.Priority))
+                {
+                    query = query.Where(t => t.Priority == filter.Priority);
+                }//add the priority query parameter if required
+
+
+                if (filter.CategoryId > 0)
+                {
+                    query = query.Where(t => t.CategoryId == filter.CategoryId);
+                }//add the category_id query parameter if required
+
+                return await query.ToListAsync();//does a single sql search with all required parameters
             }
-            
-            return tickets;
         }
 
         public async Task<Ticket> GetByIdForInteractionsAsync(int id)
