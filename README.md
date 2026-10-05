@@ -88,7 +88,7 @@ Execute os comandos na pasta que contém `DeskFlow.API.csproj`.
    dotnet ef database update
    ```
 
-   > ⚠️ **Atenção:** O SQL Server precisa estar acessível e a conexão deve apontar para um banco que possa ser criado pelo usuário ou para um banco vazio. O repositório também contém `deskflowdb.sql`, um script de criação direta de banco/tabelas; **não execute esse script e as migrations sobre o mesmo banco**, pois ambos criam tabelas. As migrations são o caminho de atualização do esquema usado pela aplicação.
+   > ⚠️ **Atenção:** O SQL Server precisa estar acessível e a conexão deve apontar para um banco que possa ser criado pelo usuário ou para um banco vazio.
 
 5. **Inicie a aplicação:**
 
