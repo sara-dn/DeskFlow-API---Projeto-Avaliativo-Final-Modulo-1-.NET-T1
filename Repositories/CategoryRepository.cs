@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DeskFlow.API.Data;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 
 namespace DeskFlow.API.Repositories
@@ -35,7 +30,13 @@ namespace DeskFlow.API.Repositories
 
         public async Task<List<Category>> GetAllAsync()
         {
-            return await _context.Categories.Include(c => c.Tickets).ToListAsync();
+            //return await _context.Categories.Include(c => c.Tickets).ToListAsync();
+            List<Category> categories = await _context.Categories.ToListAsync();
+            foreach(var category in categories)
+            {
+                category.Tickets = await _context.Tickets.Include(t => t.Interactions).Where(t => t.CategoryId == category.Id).ToListAsync();
+            }//to get the interections because otherwise it doesn't do it.
+            return categories;
         }
 
         public async Task<Category> GetByIdAsync(int id)

@@ -1,6 +1,5 @@
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Models.DTOs;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.API.Services.Interfaces
 {

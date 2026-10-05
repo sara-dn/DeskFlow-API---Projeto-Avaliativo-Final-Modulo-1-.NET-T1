@@ -2,7 +2,6 @@ using DeskFlow.API.Repositories.Interfaces;
 using DeskFlow.API.Models.DTOs;
 using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Services.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DeskFlow.API.Services
 {
@@ -38,7 +37,7 @@ namespace DeskFlow.API.Services
 
         public async Task<Ticket> CloseTicketAsync(Ticket ticket, CloseTicketDto dto)
         {
-            ticket.Status = dto.Status;
+            ticket.Status = "Closed";
             ticket.Solution = dto.Solution;
             ticket.ClosedDate = DateTime.Now;
             await _context.UpdateTicketAsync(ticket);

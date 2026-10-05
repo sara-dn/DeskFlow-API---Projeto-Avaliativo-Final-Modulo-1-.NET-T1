@@ -2,7 +2,6 @@ using DeskFlow.API.Models.Entities;
 using DeskFlow.API.Models.DTOs;
 using DeskFlow.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using DeskFlow.API.Data;
 
 namespace DeskFlow.API.Repositories
@@ -44,24 +43,24 @@ namespace DeskFlow.API.Repositories
 
         public async Task<List<Ticket>> GetAllAsync(QueryFilterDto filter)
         {
-            var query = _context.Tickets.AsNoTracking().AsQueryable();
+            List<Ticket> tickets = new();
 
-            if (!string.IsNullOrWhiteSpace(filter.Status))
+            if (!string.IsNullOrWhiteSpace(filter.Status))//isnullorwhitespace checks if a string is null, empty, or consistes of " "
             {
-                query = query.Where(t => t.Status == filter.Status);
+                tickets = await _context.Tickets.Where(t => t.Status == filter.Status).Include(t => t.Interactions).Include(t => t.Category).ToListAsync();
             }
 
             if (!string.IsNullOrWhiteSpace(filter.Priority))
             {
-            query = query.Where(t => t.Priority == filter.Priority);
+                tickets = await _context.Tickets.Where(t => t.Priority == filter.Priority).Include(t => t.Interactions).Include(t => t.Category).ToListAsync();
             }
 
             if (filter.CategoryId > 0)
             {
-                query = query.Where(t => t.CategoryId == filter.CategoryId);
+                tickets = await _context.Tickets.Where(t => t.CategoryId == filter.CategoryId).Include(t => t.Interactions).Include(t => t.Category).ToListAsync();
             }
-
-        return await query.ToListAsync();
+            
+            return tickets;
         }
 
         public async Task<Ticket> GetByIdForInteractionsAsync(int id)

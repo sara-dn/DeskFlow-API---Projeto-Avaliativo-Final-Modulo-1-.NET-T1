@@ -6,7 +6,5 @@ namespace DeskFlow.API.Models.DTOs
     {
         [Required]
         public string Solution {get; set;}
-        public DateTime ClosedDate {get; set;} = DateTime.Now;
-        public string Status {get; set;} = "Closed";
     }
 }

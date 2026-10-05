@@ -18,15 +18,8 @@ namespace DeskFlow.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateTicketDto dto)
         {
-            try
-            {
-               var createdTicket = await _ticketService.CreateTicketAsync(dto);
-               return Ok(createdTicket);
-            }
-            catch
-            {
-                throw;
-            }
+            var createdTicket = await _ticketService.CreateTicketAsync(dto);
+            return Created("api/tickets", createdTicket);//201 Created
         }
 
         [HttpPatch("{id}/start")]
@@ -35,10 +28,10 @@ namespace DeskFlow.API.Controllers
             var ticket = await _ticketService.GetByIdAsync(id);
             if (ticket == null)
             {
-                return NotFound(new { message = $"Ticket with ID {id} not found." });
+                return NotFound();//404 not found
             }
             await _ticketService.StartTicketAsync(ticket);
-            return Created();
+            return Ok();//200 OK
         }
 
         [HttpPatch("{id}/close")]
@@ -47,10 +40,10 @@ namespace DeskFlow.API.Controllers
             var ticket = await _ticketService.GetByIdAsync(id);
             if(ticket == null)
             {
-                return NotFound(new { message = $"Ticket with ID {id} not found." });
+                return NotFound();
             }
-            await _ticketService.CloseTicketAsync(ticket, dto);
-            return NoContent();
+            ticket = await _ticketService.CloseTicketAsync(ticket, dto);
+            return Ok(ticket);
         }
 
         [HttpPost]
@@ -60,11 +53,11 @@ namespace DeskFlow.API.Controllers
             var ticket = await _ticketService.GetByIdAsync(id);
             if(ticket == null)
             {
-                return NotFound(new { message = $"Ticket with ID {id} not found." });
+                return NotFound();
             }
             var createdInteraction = await _ticketService.AddInteractionAsync(id, dto);
             
-            return Created();
+            return Created("api/tickets", createdInteraction);//201 Created Successfully
         }
 
         [HttpGet]
@@ -75,7 +68,7 @@ namespace DeskFlow.API.Controllers
             
             if (ticket == null)
             {
-                return NotFound(new { message = $"Ticket with ID {id} not found." });
+                return NotFound();
             }
             return Ok(ticket);
         }
@@ -87,6 +80,10 @@ namespace DeskFlow.API.Controllers
             [FromQuery] int categoryId)
         {
             var tickets = await _ticketService.GetAllAsync(status, priority, categoryId);
+            if(tickets == null)
+            {
+                return NoContent();//204 nocontent
+            }
             return Ok(tickets);
         }
     }
