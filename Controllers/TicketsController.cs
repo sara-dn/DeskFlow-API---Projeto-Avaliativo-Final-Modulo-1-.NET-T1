@@ -26,9 +26,9 @@ namespace DeskFlow.API.Controllers
         public async Task<IActionResult> StartAsync([FromRoute] int id)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
-            if (ticket == null)
+            if (ticket == null && ticket.Status != "Open")
             {
-                return NotFound();//404 not found
+                return BadRequest();//400 not found
             }
             await _ticketService.StartTicketAsync(ticket);
             return Ok();//200 OK
@@ -38,9 +38,9 @@ namespace DeskFlow.API.Controllers
         public async Task<IActionResult> CloseAsync([FromRoute] int id, [FromBody] CloseTicketDto dto)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
-            if(ticket == null)
+            if(ticket == null && ticket.Status != "InProgress")
             {
-                return NotFound();
+                return BadRequest();
             }
             ticket = await _ticketService.CloseTicketAsync(ticket, dto);
             return Ok(ticket);
