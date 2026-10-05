@@ -51,9 +51,9 @@ namespace DeskFlow.API.Controllers
         public async Task<IActionResult> AddInteractionAsync([FromRoute] int id, [FromBody] CreateInteractionDto dto)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
-            if(ticket == null)
+            if(ticket == null && ticket.Status == "Closed")
             {
-                return NotFound();
+                return BadRequest();//400 bad request
             }
             var createdInteraction = await _ticketService.AddInteractionAsync(id, dto);
             
