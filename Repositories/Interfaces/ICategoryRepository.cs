@@ -9,5 +9,6 @@ namespace DeskFlow.API.Repositories.Interfaces
         Task<Category> CreateAsync(Category category);
         Task UpdateAsync(Category category);
         Task DeleteAsync(Category category);
+        Task<bool> HasTicketsAsync(int id);
     }
 }

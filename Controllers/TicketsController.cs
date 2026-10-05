@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DeskFlow.API.Services.Interfaces; 
 using DeskFlow.API.Models.DTOs;
+using Microsoft.Data.SqlClient;
 
 namespace DeskFlow.API.Controllers
 {
@@ -18,17 +19,23 @@ namespace DeskFlow.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateTicketDto dto)
         {
-            var createdTicket = await _ticketService.CreateTicketAsync(dto);
-            return Created("api/tickets", createdTicket);//201 Created
+            bool validCategory = await _ticketService.ValidCategoryId(dto.CategoryId);
+            if (validCategory)
+            {
+                var createdTicket = await _ticketService.CreateTicketAsync(dto);
+                return Created("api/tickets", createdTicket);//201 Created
+            }
+
+            return BadRequest(new{Message="Invalid Category Id."});            
         }
 
         [HttpPatch("{id}/start")]
         public async Task<IActionResult> StartAsync([FromRoute] int id)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
-            if (ticket == null && ticket.Status != "Open")
+            if (ticket == null || ticket.Status != "Open")
             {
-                return BadRequest();//400 not found
+                return BadRequest(new{Message="Invalid Ticket."});//400 not found
             }
             await _ticketService.StartTicketAsync(ticket);
             return Ok();//200 OK
@@ -38,9 +45,9 @@ namespace DeskFlow.API.Controllers
         public async Task<IActionResult> CloseAsync([FromRoute] int id, [FromBody] CloseTicketDto dto)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
-            if(ticket == null && ticket.Status != "InProgress")
+            if(ticket == null || ticket.Status != "InProgress")
             {
-                return BadRequest();
+                return BadRequest(new{Message="Invalid Ticket."});
             }
             ticket = await _ticketService.CloseTicketAsync(ticket, dto);
             return Ok(ticket);
@@ -51,9 +58,9 @@ namespace DeskFlow.API.Controllers
         public async Task<IActionResult> AddInteractionAsync([FromRoute] int id, [FromBody] CreateInteractionDto dto)
         {
             var ticket = await _ticketService.GetByIdAsync(id);
-            if(ticket == null && ticket.Status == "Closed")
+            if(ticket == null || ticket.Status == "Closed")
             {
-                return BadRequest();//400 bad request
+                return BadRequest(new{Message="Invalid Ticket."});//400 bad request
             }
             var createdInteraction = await _ticketService.AddInteractionAsync(id, dto);
             
@@ -68,7 +75,7 @@ namespace DeskFlow.API.Controllers
             
             if (ticket == null)
             {
-                return NotFound();
+                return NotFound(new{Message="No ticket by Id:"+id+" was found"});
             }
             return Ok(ticket);
         }

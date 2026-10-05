@@ -17,7 +17,7 @@ namespace DeskFlow.API.Repositories
 
         public async Task<Ticket> CreateTicketAsync(Ticket ticket)
         {
-            await _context.AddAsync(ticket);
+            await _context.AddAsync(ticket);           
             await _context.SaveChangesAsync();
             return ticket;
         }
@@ -38,7 +38,7 @@ namespace DeskFlow.API.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            return await _context.Tickets.AsNoTrackingWithIdentityResolution().Include(t => t.Interactions).FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Tickets.AsNoTrackingWithIdentityResolution().Include(t => t.Interactions).Include(t => t.Category).FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<List<Ticket>> GetAllAsync(QueryFilterDto filter)
@@ -69,6 +69,11 @@ namespace DeskFlow.API.Repositories
         public async Task<Ticket> GetByIdForInteractionsAsync(int id)
         {
             return await _context.Tickets.FindAsync(id);
+        }
+
+        public async Task<bool> ValidCategoryId(int id)
+        {
+            return await _context.Categories.AnyAsync(c => c.Id == id);
         }
     }
 }

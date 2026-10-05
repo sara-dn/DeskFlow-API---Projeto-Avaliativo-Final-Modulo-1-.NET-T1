@@ -53,5 +53,10 @@ namespace DeskFlow.API.Services
             categoryDb.Update(updatedCategory);
             await _categoryRepository.UpdateAsync(categoryDb);
         }
+
+        public async Task<bool> HasTicketAsync(int id)
+        {
+            return await _categoryRepository.HasTicketsAsync(id);
+        }
     }
 }

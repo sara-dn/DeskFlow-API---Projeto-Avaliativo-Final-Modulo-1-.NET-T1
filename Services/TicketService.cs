@@ -74,6 +74,11 @@ namespace DeskFlow.API.Services
 
             return await _context.GetAllAsync(filter);
         }
+
+        public async Task<bool> ValidCategoryId(int id)
+        {
+            return await _context.ValidCategoryId(id);
+        }
     
     }
 }

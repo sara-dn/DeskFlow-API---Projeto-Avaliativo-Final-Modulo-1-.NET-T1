@@ -61,8 +61,17 @@ namespace DeskFlow.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteAsyn([FromRoute]int id)
         {
-            await _categoryService.DeleteAsync(id);
-            return NoContent();//204 no content, because it was either deleted or doen't exist
+            bool hasTicket = await _categoryService.HasTicketAsync(id);
+            if (hasTicket)
+            {
+                return BadRequest(new{Message="Category has tickcets and cannot be deleted."});//400 bad request with clean json response
+            }
+            else
+            {
+                await _categoryService.DeleteAsync(id);
+                return NoContent();//204 no content, because it was either deleted or doen't exist
+            }
+
         }
     }
 }

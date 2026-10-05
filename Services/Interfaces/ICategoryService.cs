@@ -10,5 +10,6 @@ namespace DeskFlow.API.Services.Interfaces
         Task<Category> CreateAsync(CreateUpdateCategoryDto dto);
         Task UpdateAsync(int id, CreateUpdateCategoryDto dto);
         Task DeleteAsync(int id);
+        Task<bool> HasTicketAsync(int id);
     }
 }

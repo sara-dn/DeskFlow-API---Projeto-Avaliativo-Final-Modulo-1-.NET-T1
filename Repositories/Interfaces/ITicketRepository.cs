@@ -12,5 +12,6 @@ namespace DeskFlow.API.Repositories.Interfaces
         Task<Ticket> GetByIdAsync(int id);
         Task<List<Ticket>> GetAllAsync(QueryFilterDto filter);
         Task<Ticket> GetByIdForInteractionsAsync(int id);
+        Task<bool> ValidCategoryId(int id);
     }
 }

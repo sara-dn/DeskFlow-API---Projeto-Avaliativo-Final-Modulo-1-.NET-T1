@@ -49,5 +49,10 @@ namespace DeskFlow.API.Repositories
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> HasTicketsAsync(int id)
+        {
+            return await _context.Tickets.AnyAsync(t => t.CategoryId == id);
+        }
     }
 }
